@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Examen</title>
+<script>
+function cargar(){
+//Cargamos marcas
+	var marcas = ["Audi","Renault"];
+	formulario.mcoches.options.length=marcas.length;
+	
+	for(i=0;i<marcas.length;i++){
+	formulario.mcoches[i].text=marcas[i];
+	}
+//Cargamos modelos
+	//Audi
+	var audis=["A1","A2"];
+	formulario.cochesaudi.options.length=audis.length;
+	
+	for(i=0;i<audis.length;i++){
+	formulario.cochesaudi[i].text=audis[i];
+	}
+	//Renault
+	var rens=["R1","R2"];
+	formulario.cochesren.options.length=rens.length;
+	
+	for(i=0;i<rens.length;i++){
+	formulario.cochesren[i].text=rens[i];
+	}
+	
+	
+	
+	
+	formulario.cochesaudi.disabled=true;
+	formulario.cochesren.disabled=true;
+}
+
+function comprar(){
+//Obligación de rellenar cajas de texto
+	if(formulario.nombre.value!=" " && formulario.nombre.value!=null && isNaN(formulario.nombre.value) && formulario.dire.value!=" " && formulario.dire.value!=null && isNaN(formulario.dire.value)){
+	//Añadir los datos a los tetxtarea
+	formulario.area1.value +=formulario.nombre.value+"\n";
+	formulario.area1.value +=formulario.dire.value;
+	
+	if(formulario.mcoches.value=="Audi"){
+	formulario.area2.value +=formulario.mcoches.value+"\n";
+	formulario.area2.value +=formulario.cochesaudi.value;
+	}else{
+	formulario.area2.value +=formulario.mcoches.value+"\n";
+	formulario.area2.value +=formulario.cochesren.value;
+	}
+	
+//Se crea la nueva ventana con la información
+	var ventana=window.open("","ventana");
+	ventana.document.write("<h1>Factura</h1>");
+	ventana.document.write(formulario.nombre.value+"</br>");
+	ventana.document.write(formulario.dire.value+"</br>");
+	ventana.document.write(formulario.mcoches.value+"</br>");
+	ventana.document.write(formulario.cochesaudi.value+"</br>");
+	ventana.document.write(formulario.cochesren.value);
+	}else{
+	alert("Debes rellenar todas las cajas de texto correctamente");
+	}
+	
+
+}
+
+function seleccionar(){
+//Unicamente se podran seleccionar modelos de su misma marca 
+	
+	
+	if(formulario.mcoches.value=="Audi"){
+	formulario.cochesaudi.disabled=false;
+	formulario.cochesren.disabled=true;
+	}else if(formulario.mcoches.value=="Renault"){
+	formulario.cochesaudi.disabled=true;
+	formulario.cochesren.disabled=false;
+	}
+}
+
+
+
+</script>
+</head>                             
+
+<body onload="cargar()">
+<form name="formulario">
+<h1 align="center">VENTA DE COCHES</h1>
+<p>Nombre<input type="text" value="" name="nombre"/></p>
+<p>Dirección<input type="text" value="" name="dire"/></p>
+<p>Marcas<select name="mcoches" onchange="seleccionar()"></select></p>
+<p align="center">Modelos de coches</p>
+<p>Audi<select name="cochesaudi"></select></p>
+<p>Renault<select name="cochesren"></select></p>
+<p><input type="button" value="Realizar venta" onclick="comprar()"/></p>
+<p><input type="reset" value="Nueva venta"/></p>
+<p><input type="submit" value="Salir" onmouseup="self.close()"></p>
+
+<p>DATOS CLIENTE<textarea rows="4px" name="area1"></textarea></p>
+<p>DATOS COCHE<textarea rows="4px" name="area2"></textarea></p>
+</form>
+</body>
+<html>
